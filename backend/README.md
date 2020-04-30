@@ -89,7 +89,204 @@ GET '/categories'
 '6' : "Sports"}
 
 ```
+## REST API 
 
+
+### Endpoints
+
+```
+GET '/categories'
+GET '/questions'
+POST '/questions'
+DELETE '/questions/<id>'
+POST '/questions-search'
+GET '/categories/<int:category_id>/questions'
+POST'/quizzes'
+
+```
+
+```
+GET '/categories'
+- Fetches a dictionary of categories in which the keys are the ids and 
+the value is the corresponding string of the category
+- Request Arguments: None
+- Returns: An object with a single key, categories, that 
+contains a object of id: category_string key:value pairs. 
+{'1' : "Science",
+'2' : "Art",
+'3' : "Geography",
+'4' : "History",
+'5' : "Entertainment",
+'6' : "Sports"}
+```
+
+```
+GET '/questions'
+- Fetches a dictionary containing all questions stored in the database. Results are paginated. 
+By default, the first page with 10 questions/page is returned. 
+- Request Arguments: page - representing umber of page to be returned. Example: ?page=1 
+- Returns: An object containing a question list. Example below: 
+{
+  "categories": [
+    {
+      "id": 5,
+      "type": "science"
+    }
+],
+  "current_category": "science",
+  "questions": [
+    {
+      "answer": "5",
+      "category": "4",
+      "difficulty": 5,
+      "id": 4,
+      "question": "2+2"
+    }
+  ],
+  "total_questions": 1
+}
+```
+
+```
+POST '/questions'
+- Creates a new question
+- Request Arguments: a json with fields: question, answer, difficulty, category.
+Example:
+{"question":"2+2","answer":"5","difficulty":"5","category":"5"}
+- Returns: An object containing operation status:
+{
+  "status": "question added"
+}
+```
+
+```
+DELETE '/questions/<id>'
+- Removes question by its id
+- Request Arguments: question id - path parameter.
+- Returns: An object containing operation status:
+{
+  "status": "deleted"
+}
+```
+
+```
+POST '/questions-search'
+- Retrieve questions that match the search phrase. 
+Field 'question' will be matched with the question phrase. The response is paginated.
+- Request Arguments: Json with fields: searchTerm and page. Exaample: 
+{"searchTerm":"blah","page":"1"}
+- Returns: An object containing list of questions:
+{
+  "categories": [
+    {
+      "id": 1,
+      "type": "art"
+    },
+    {
+      "id": 2,
+      "type": "entertainment"
+    },
+    {
+      "id": 3,
+      "type": "geography"
+    },
+    {
+      "id": 4,
+      "type": "history"
+    },
+    {
+      "id": 5,
+      "type": "science"
+    },
+    {
+      "id": 6,
+      "type": "sports"
+    }
+  ],
+  "current_category": "ALL",
+  "questions": [
+  
+    {
+      "answer": "blaaaah",
+      "category": "1",
+      "difficulty": 1,
+      "id": 1,
+      "question": "blah"
+    }
+  ],
+  "total_questions": 1
+}
+```
+
+
+```
+GET '/categories/<int:category_id>/questions'
+- Retrieve questions in given category
+
+- Request Arguments: path parameter - category_id
+- Returns: An object containing list of questions in given category:
+{
+  "categories": [
+    {
+      "id": 1,
+      "type": "art"
+    },
+    {
+      "id": 2,
+      "type": "entertainment"
+    },
+    {
+      "id": 3,
+      "type": "geography"
+    },
+    {
+      "id": 4,
+      "type": "history"
+    },
+    {
+      "id": 5,
+      "type": "science"
+    },
+    {
+      "id": 6,
+      "type": "sports"
+    }
+  ],
+  "current_category": "art",
+  "questions": [
+  
+    {
+      "answer": "blaaaah",
+      "category": "1",
+      "difficulty": 1,
+      "id": 1,
+      "question": "blah"
+    }
+  ],
+  "total_questions": 1
+}
+```
+
+```
+POST '/quizes'
+
+- Fetches a dictionary containing all questions stored in the database. Results are paginated. 
+By default, the first page with 10 questions/page is returned. 
+- Request Arguments: json containing category and previous question parameters
+Example:
+{"previous_questions":[],"quiz_category":{"type":"art","id":4}}
+- Returns: a random questions within the given category. 
+Example:
+{
+  "question": {
+    "answer": "none",
+    "category": "4",
+    "difficulty": 5,
+    "id": 5,
+    "question": "what is your favourite color"
+  }
+}
+```
 
 ## Testing
 To run the tests, run
