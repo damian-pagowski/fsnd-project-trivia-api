@@ -296,3 +296,12 @@ createdb trivia_test
 psql trivia_test < trivia.psql
 python test_flaskr.py
 ```
+### alternative commands
+- log in to db with password, 
+PGPASSWORD=postgres psql --host=localhost --port=5432 --username=postgres trivia_test < trivia.psql
+- create database:
+create database trivia_test
+- drop database
+drop database trivia_test
+- run db script
+PGPASSWORD=postgres psql --host=localhost --port=5432 --username=postgres trivia_test

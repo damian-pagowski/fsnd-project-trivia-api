@@ -80,8 +80,10 @@ def create_app(test_config=None):
     body = request.get_json()
     question = body.get('question')
     answer = body.get('answer')
-    category = body.get('category')
-    difficulty = body.get('difficulty')
+    category = body.get('category', None)
+    difficulty = body.get('difficulty', None)
+    if question == None or answer == None or category == None or difficulty == None:
+      abort(422)
     try:
         entity = Question(question, answer, category, difficulty)
         entity.insert()
@@ -92,9 +94,9 @@ def create_app(test_config=None):
   # POST endpoint to get questions based on a search term.
   @app.route("/questions-search", methods=['POST'])
   def search_questions():
+    if "searchTerm" not in request.json:
+      abort(422)
     search_phrase = request.json['searchTerm']
-    print("search for: " + search_phrase)
-
     page = 1
     if "page" in request.json:
       page = int(request.json['page'])
